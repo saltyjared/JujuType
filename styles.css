@@ -1,0 +1,138 @@
+/* Importing font family from Google Fonts */
+@import url('https://fonts.googleapis.com/css2?family=Space+Grotesk&family=Space+Mono&display=swap');
+
+:root{
+    --bgColor: whitesmoke;
+    --textPrimary: black;
+    --textSecondary: gray;
+}
+
+body{
+    font-family: 'Space Grotesk', sans-serif;
+    background-color: var(--bgColor);
+    color: var(--textPrimary);
+    font-size: 1.4rem;
+}
+
+main{
+    width: 600px;
+    margin: 50px auto;
+}
+
+h1{
+    color: var(--textPrimary);
+}
+
+h1 img{
+    position: absolute;
+    width: 55px;
+}
+
+#header{
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    margin: 20px 6px 30px;
+}
+
+#buttons{
+    text-align: right;
+}
+
+#info{
+    color: var(--textPrimary); 
+}
+
+button{
+    background: rgb(82, 177, 255);
+    border: 1;
+    border-color: var(--textPrimary);
+    color: var(--textPrimary);
+    padding: 5px 20px;
+    border-radius: 5px;
+    cursor: pointer;
+}
+
+div#game{
+    line-height: 35px;
+    height: 105px;
+    overflow: hidden;
+    position: relative;
+}
+
+div#game:focus{
+    outline: 0;
+}
+
+#words{
+    filter: blur(5px);
+    color: var(--textSecondary);
+}
+
+#game:focus #words{
+    filter: blur(0);
+}
+
+#game:focus #focus-error{
+    display: none;
+}
+
+#focus-error{
+    position: absolute;
+    inset: 0;
+    text-align: center;
+    padding-top: 35px;
+}
+
+div.word{
+    display: inline-block;
+    font-family: 'Space Mono', monospace;
+    margin: 0 5px
+}
+
+.letter.correct{
+    color: rgb(82, 177, 255);
+}
+
+.letter.incorrect{
+    color: red;
+}
+
+@keyframes blink{
+    0%{
+        opacity: 1;
+    }
+    50%{
+        opacity: 0;
+    }
+    100%{
+        opacity: 1;
+    }
+}
+
+#cursor{
+    display: none;
+    width: 2px;
+    height: 1.6rem;
+    background: var(--textPrimary);
+    position: fixed;
+    top: 205px;
+    left: 115px;
+    animation: blink 0.8s infinite;
+}
+
+#game:focus #cursor{
+    display: block;
+}
+
+#game.over #words{
+    opacity: .5;
+    filter: blur(0px);
+}
+
+#game.over:focus #cursor{
+    display: none;
+}
+
+#game.over #focus-error{
+    display: none;
+}
