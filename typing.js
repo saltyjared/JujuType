@@ -14,7 +14,7 @@ function addClass(el, name){
 }
 
 function removeClass(el, name){
-    el.className = el.className.replace(name,'');
+    el.className = el.className.replace(' '+name,'');
 }
 
 function randomQuote() {
@@ -27,7 +27,12 @@ function formatWord(word) {
 }
 
 function newGame() {
-    removeClass(document.getElementById('game'), 'over');
+    clearInterval(window.timer);
+    window.timer = null;
+    window.gameStart = null;
+    document.getElementById('words').style.marginTop = '0px';
+
+    document.getElementById('game').className = '';
     document.getElementById('words').innerHTML = '';
     const quote = randomQuote().split(" ");
     for (let i = 0; i < quote.length; i++) {
@@ -36,7 +41,6 @@ function newGame() {
     addClass(document.querySelector('.word'), 'current');
     addClass(document.querySelector('.letter'), 'current');
     document.getElementById('info').innerHTML = (gameTime / 1000) + '';
-    window.timer = null;
 }
 
 function getWPM() {
@@ -68,6 +72,8 @@ document.getElementById('game').addEventListener('keydown', ev => {
     const isSpace = key === ' ';
     const isBackspace = key === 'Backspace';
     const isFirstLetter = currentLetter === currentWord.firstChild;
+    const isExtra = document.querySelector('.extra');
+    const lastCorrectLetter = document.querySelector('.letter .correct:last-of-type');
 
     if (document.querySelector('#game.over')) {
         return;
@@ -75,7 +81,7 @@ document.getElementById('game').addEventListener('keydown', ev => {
 
     console.log({key,expected});
 
-    if (!window.timer && isLetter) {
+    if (!window.timer && (isLetter || isSpace)) {
         window.timer = setInterval(() => {
             if (!window.gameStart) {
                 window.gameStart = (new Date()).getTime();
@@ -127,14 +133,17 @@ document.getElementById('game').addEventListener('keydown', ev => {
 
     // Backspace implementation
     if (isBackspace) {
-        if (currentLetter && isFirstLetter) {
+        if (currentLetter && isFirstLetter && currentWord.previousSibling.lastChild === isExtra) {
             // Make previous word's last letter the current letter
             removeClass(currentWord, 'current');
             addClass(currentWord.previousSibling, 'current');
             removeClass(currentLetter, 'current');
-            addClass(currentWord.previousSibling.lastChild, 'current');
-            removeClass(currentWord.previousSibling.lastChild, 'incorrect');
-            removeClass(currentWord.previousSibling.lastChild, 'correct');
+            if (isExtra){
+                currentWord.previousSibling.lastChild.remove();
+            }
+            addClass(lastCorrectLetter, 'current');
+            removeClass(lastCorrectLetter, 'incorrect');
+            removeClass(lastCorrectLetter, 'correct');
         }
         if (currentLetter && !isFirstLetter) {
             // Make previous letter current and strip correct/incorrect tag
@@ -145,11 +154,22 @@ document.getElementById('game').addEventListener('keydown', ev => {
         }
         if (!currentLetter) {
             // Make last letter of current word current and strip correct/incorrect tag
-            addClass(currentWord.lastChild, 'current');
-            removeClass(currentWord.lastChild, 'incorrect');
-            removeClass(currentWord.lastChild, 'correct');
+            if (!isExtra) {
+                // If last character is not extra, proceed as usual
+                addClass(currentWord.lastChild, 'current');
+                removeClass(currentWord.lastChild, 'incorrect');
+                removeClass(currentWord.lastChild, 'correct');
+            }
+            else {
+                // If last character is extra, remove from word
+                currentWord.lastChild.remove(isExtra);
+            }
         }
     }
+
+    /*if (currentWord.lastChild === currentLetter && !currentLetter.parentElement.nextSibling) {
+        gameOver();
+    }*/
 
     // Moving cursor
     const nextLetter = document.querySelector('.letter.current');

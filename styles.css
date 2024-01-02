@@ -50,6 +50,7 @@ button{
     padding: 5px 20px;
     border-radius: 5px;
     cursor: pointer;
+    font-family: 'Space Grotesk', sans-serif
 }
 
 div#game{
@@ -115,8 +116,7 @@ div.word{
     height: 1.6rem;
     background: var(--textPrimary);
     position: fixed;
-    top: 205px;
-    left: 115px;
+    top: 206px;
     animation: blink 0.8s infinite;
 }
 
