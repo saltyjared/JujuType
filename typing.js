@@ -100,12 +100,6 @@ document.getElementById('game').addEventListener('keydown', ev => {
         }, 100);
     }
 
-    if (gameEnd) {
-        // End game if last word is completed
-        gameOver();
-        return;
-    }
-
     // If input key is a letter, check whether it is correct/incorrect
     if (isLetter) {
         if (currentLetter) {
@@ -194,6 +188,12 @@ document.getElementById('game').addEventListener('keydown', ev => {
         const margin = parseInt(words.style.marginTop || '0px');
         words.style.marginTop = (margin - 35) + 'px';
     }
+
+    if (gameEnd) {
+        // End game if last word is completed
+        gameOver();
+        return;
+    }
 })
 
 // New game button functionality
@@ -201,5 +201,20 @@ document.getElementById('new-game').addEventListener('click', () => {
     gameOver();
     newGame();
 });
+
+
+var icon = document.getElementById('dark-mode-toggle');
+var logo = document.getElementById('logo');
+icon.onclick = function(){
+    document.body.classList.toggle('dark-theme');
+    if (document.body.classList.contains('dark-theme')) {
+        icon.src = "images/moon.svg";
+        logo.src = "images/shinto-shrine.svg";
+    }
+    else {
+        icon.src = "images/sun.svg";
+        logo.src = "images/crossed-fingers.svg";
+    }
+}
 
 newGame();

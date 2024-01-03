@@ -5,6 +5,14 @@
     --bgColor: whitesmoke;
     --textPrimary: black;
     --textSecondary: gray;
+    --textCorrect: rgb(82, 177, 255);
+}
+
+.dark-theme{
+    --bgColor: #222222;
+    --textPrimary: #AB4242;
+    --textSecondary: gray;
+    --textCorrect: whitesmoke;
 }
 
 body{
@@ -43,7 +51,7 @@ h1 img{
 }
 
 button{
-    background: rgb(82, 177, 255);
+    background: var(--textCorrect);
     border: 1;
     border-color: var(--textPrimary);
     color: var(--textPrimary);
@@ -51,6 +59,13 @@ button{
     border-radius: 5px;
     cursor: pointer;
     font-family: 'Space Grotesk', sans-serif
+}
+
+input{
+    width: 25px;
+    cursor: pointer;
+    position: relative;
+    top: 7px;
 }
 
 div#game{
@@ -91,7 +106,7 @@ div.word{
 }
 
 .letter.correct{
-    color: rgb(82, 177, 255);
+    color: var(--textCorrect);
 }
 
 .letter.incorrect{
