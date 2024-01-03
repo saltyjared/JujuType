@@ -41,6 +41,8 @@ function newGame() {
     addClass(document.querySelector('.word'), 'current');
     addClass(document.querySelector('.letter'), 'current');
     document.getElementById('info').innerHTML = (gameTime / 1000) + '';
+    document.getElementById('cursor').style.top = document.querySelector('.word.current').getBoundingClientRect().top + 5 + 'px';
+    document.getElementById('cursor').style.left = document.querySelector('.word.current').getBoundingClientRect().left - 1 + 'px';
 }
 
 function getWPM() {
@@ -72,7 +74,7 @@ document.getElementById('game').addEventListener('keydown', ev => {
     const isSpace = key === ' ';
     const isBackspace = key === 'Backspace';
     const isFirstLetter = currentLetter === currentWord.firstChild;
-    const isExtra = document.querySelector('.extra');
+    const isExtra = document.querySelector('.incorrect.extra');
     const lastCorrectLetter = document.querySelector('.letter .correct:last-of-type');
 
     if (document.querySelector('#game.over')) {
@@ -133,17 +135,20 @@ document.getElementById('game').addEventListener('keydown', ev => {
 
     // Backspace implementation
     if (isBackspace) {
-        if (currentLetter && isFirstLetter && currentWord.previousSibling.lastChild === isExtra) {
-            // Make previous word's last letter the current letter
-            removeClass(currentWord, 'current');
-            addClass(currentWord.previousSibling, 'current');
-            removeClass(currentLetter, 'current');
-            if (isExtra){
-                currentWord.previousSibling.lastChild.remove();
+        if (currentLetter && isFirstLetter) {
+            if (currentWord.previousSibling.children.length === currentWord.previousSibling.querySelectorAll('.correct').length) {
+                ;
             }
-            addClass(lastCorrectLetter, 'current');
-            removeClass(lastCorrectLetter, 'incorrect');
-            removeClass(lastCorrectLetter, 'correct');
+            else {
+                // Make previous word's last letter the current letter
+                removeClass(currentWord, 'current');
+                addClass(currentWord.previousSibling, 'current');
+                removeClass(currentLetter, 'current');
+                addClass(lastCorrectLetter, 'current');
+                document.getElementById('cursor').style.left = currentWord.getBoundingClientRect().right - 1 +'px'
+                removeClass(lastCorrectLetter, 'incorrect');
+                removeClass(lastCorrectLetter, 'correct');
+            }
         }
         if (currentLetter && !isFirstLetter) {
             // Make previous letter current and strip correct/incorrect tag
@@ -177,6 +182,7 @@ document.getElementById('game').addEventListener('keydown', ev => {
     const cursor = document.getElementById('cursor');
     cursor.style.top = (nextLetter || nextWord).getBoundingClientRect().top + 5 + 'px';
     cursor.style.left = (nextLetter || nextWord).getBoundingClientRect()[nextLetter ? 'left' : 'right'] - 1 + 'px';
+
 
     // Moving and scrolling lines of text
     if (currentWord.getBoundingClientRect().top > 260) {
