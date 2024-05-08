@@ -56,13 +56,18 @@ function getWPM() {
         const correctLetters = letters.filter(letter => letter.className.includes('correct'));
         return incorrectLetters.length === 0 && correctLetters.length === letters.length;
     });
-    return correctWords.length / gameTime * 60000;
+    const startTime = window.gameStart;
+    const endTime = (new Date()).getTime();
+    const timeTaken = endTime - startTime;
+    const wpm = (correctWords.length / (timeTaken / 60000));
+    return wpm;
 }
 
 function gameOver() {
     clearInterval(window.timer);
     addClass(document.getElementById('game'), 'over');
-    document.getElementById('info').innerHTML = `WPM: ${getWPM()}`;
+    const wpm = getWPM();
+    document.getElementById('info').innerHTML = `WPM: ${wpm.toFixed(2)}`;
 }
 
 document.getElementById('game').addEventListener('keydown', ev => {
