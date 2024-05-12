@@ -45,6 +45,8 @@ function newGame() {
     document.getElementById('cursor').style.left = document.querySelector('.word.current').getBoundingClientRect().left - 1 + 'px';
 }
 
+window.onload = newGame();
+
 function getWPM() {
     const words = [...document.querySelectorAll('.word')];
     const lastTypedWord = document.querySelector('.word.current');
@@ -164,15 +166,15 @@ document.getElementById('game').addEventListener('keydown', ev => {
         }
         if (!currentLetter) {
             // Make last letter of current word current and strip correct/incorrect tag
-            if (!isExtra) {
+            const lastChild = currentWord.lastChild;
+            if (lastChild.classList.contains('extra')) {
+                lastChild.remove();
+            }
+            else {
                 // If last character is not extra, proceed as usual
                 addClass(currentWord.lastChild, 'current');
                 removeClass(currentWord.lastChild, 'incorrect');
                 removeClass(currentWord.lastChild, 'correct');
-            }
-            else {
-                // If last character is extra, remove from word
-                currentWord.lastChild.remove(isExtra);
             }
         }
     }
@@ -222,4 +224,4 @@ icon.onclick = function(){
     }
 }
 
-newGame();
+
