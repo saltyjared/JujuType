@@ -1,7 +1,5 @@
-# JujuType
+# [JujuType](https://saltyjared.github.io/JujuType/)
 JujuType is a minimalist, speed typing game, inspired by [Monkeytype](https://monkeytype.com/). Instead of randomly generated words, JujuType prompts the player with quotes from popular anime *Jujutsu Kaisen*. JujuType was built using HTML, CSS, and JavaScript.
-
-To play, click [here](https://saltyjared.github.io/JujuType/)!
 
 ## Reflection
 JujuType was built out of the need to explore and learn web development basics, particularly through HTML/CSS/JavaScript. After battling choice paralysis among all the coding and project tutorials, I settled on following Coding with Dawid's [Build Typing Game with Javascript](https://www.youtube.com/watch?v=E_tZH9R_zi8&t=338s) tutorial. This tutorial, while straughtforward and succinct, does not properly implement the features of Monkeytype, despite being inspired by it. For example, correctly-typed words can be accessed via backspace, which is not allowed in the Monkeytype implementation. To expand my knowledge of web development, I took it upon myself to fix certain bugs and and add features that the video either does not mention or include. These improvements include: fixing the "New game" button to properly reset the timer, implementing the original typing conventions of Monkeytype, improving the "addClass" function to remove extra whitespaces in HTML element classes, and adding a "Dark theme" button.
